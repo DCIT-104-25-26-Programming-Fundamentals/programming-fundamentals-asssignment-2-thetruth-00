@@ -42,3 +42,78 @@
 #include <iostream>
 using namespace std;
 
+// Function Prototypes
+double calculateSum(const double arr[], int size);
+double calculateAverage(const double arr[], int size);
+double findMaximum(const double arr[], int size);
+double findMinimum(const double arr[], int size);
+
+int main() {
+    int n;
+    cout << "How many numbers? ";
+    cin >> n;
+
+    // Validate input size
+    if (n <= 0) {
+        cout << "Error: The number of elements must be a positive integer." << endl;
+        return 1; 
+    }
+
+    // Dynamic array allocation based on user input
+    double* numbers = new double[n];
+
+    // Read values from the user
+    for (int i = 0; i < n; i++) {
+        cout << "Enter number " << i + 1 << ": ";
+        cin >> numbers[i];
+    }
+
+    // Display statistical results
+    cout << "\nResults:" << endl;
+    cout << "Sum:     " << calculateSum(numbers, n) << endl;
+    cout << "Average: " << calculateAverage(numbers, n) << endl;
+    cout << "Maximum: " << findMaximum(numbers, n) << endl;
+    cout << "Minimum: " << findMinimum(numbers, n) << endl;
+
+    // Clean up dynamically allocated memory
+    delete[] numbers;
+
+    return 0;
+}
+
+// Computes the total sum of the array elements
+double calculateSum(const double arr[], int size) {
+    double sum = 0.0;
+    for (int i = 0; i < size; i++) {
+        sum += arr[i];
+    }
+    return sum;
+}
+
+// Computes the average value of the array elements
+double calculateAverage(const double arr[], int size) {
+    if (size == 0) return 0.0;
+    return calculateSum(arr, size) / size;
+}
+
+// Identifies the largest value in the array
+double findMaximum(const double arr[], int size) {
+    double maxVal = arr[0];
+    for (int i = 1; i < size; i++) {
+        if (arr[i] > maxVal) {
+            maxVal = arr[i];
+        }
+    }
+    return maxVal;
+}
+
+// Identifies the smallest value in the array
+double findMinimum(const double arr[], int size) {
+    double minVal = arr[0];
+    for (int i = 1; i < size; i++) {
+        if (arr[i] < minVal) {
+            minVal = arr[i];
+        }
+    }
+    return minVal;
+}
