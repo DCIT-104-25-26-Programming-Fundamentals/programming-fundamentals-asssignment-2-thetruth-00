@@ -51,3 +51,90 @@
 #include <iostream>
 using namespace std;
 
+// Function Prototypes
+void printFibonacciTerms(int n);
+void checkFibonacciNumber(int num);
+
+int main() {
+    int n, num;
+
+    // --- PART A: Print the First N Terms ---
+    cout << "How many terms? ";
+    cin >> n;
+    
+    // Requirement: N must be a positive integer
+    if (n <= 0) {
+        cout << "Error: The number of terms must be a positive integer." << endl;
+    } else {
+        printFibonacciTerms(n);
+    }
+
+    cout << endl; // Formatting line break
+
+    // --- PART B: Check if a Number Belongs to the Sequence ---
+    cout << "Enter a number to check: ";
+    cin >> num;
+    checkFibonacciNumber(num);
+
+    return 0;
+}
+
+// -----------------------------------------------------------------------------
+// PART A — Print the First N Terms
+// -----------------------------------------------------------------------------
+void printFibonacciTerms(int n) {
+    long long t1 = 0, t2 = 1, nextTerm = 0;
+
+    cout << "Fibonacci sequence: ";
+    for (int i = 1; i <= n; ++i) {
+        // Print the current term
+        if (i == 1) {
+            cout << t1 << " ";
+            continue;
+        }
+        if (i == 2) {
+            cout << t2 << " ";
+            continue;
+        }
+        // Calculate subsequent terms
+        nextTerm = t1 + t2;
+        t1 = t2;
+        t2 = nextTerm;
+        cout << nextTerm << " ";
+    }
+    cout << endl;
+}
+
+// -----------------------------------------------------------------------------
+// PART B — Check if a Number Belongs to the Sequence
+// -----------------------------------------------------------------------------
+void checkFibonacciNumber(int num) {
+    // Handle negative numbers immediately
+    if (num < 0) {
+        cout << num << " is NOT a Fibonacci number." << endl;
+        return;
+    }
+
+    long long t1 = 0, t2 = 1, nextTerm = 0;
+
+    // Handle the base cases directly
+    if (num == 0 || num == 1) {
+        cout << num << " is a Fibonacci number." << endl;
+        return;
+    }
+
+    // Generate terms until we match or exceed the target number
+    while (nextTerm < num) {
+        nextTerm = t1 + t2;
+        t1 = t2;
+        t2 = nextTerm;
+    }
+
+    // Verify if the loop stopped on an exact match
+    if (nextTerm == num) {
+        cout << num << " is a Fibonacci number." << endl;
+    } else {
+        cout << num << " is NOT a Fibonacci number." << endl;
+    }
+}
+
