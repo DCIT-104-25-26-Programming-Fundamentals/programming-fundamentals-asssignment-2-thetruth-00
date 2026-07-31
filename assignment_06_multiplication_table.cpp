@@ -57,3 +57,64 @@
 #include <iostream>
 using namespace std;
 
+#include <iostream>
+using namespace std;
+
+// Function Prototypes
+void printSingleTable(int num);
+void printTablesUpToN(int n);
+
+int main() {
+    int targetNum, maxRange;
+
+    // --- PART A: Single Table ---
+    cout << "Enter a number for its multiplication table: ";
+    cin >> targetNum;
+    
+    // Validation for Part A
+    if (targetNum <= 0) {
+        cout << "Error: Please enter a positive integer." << endl;
+        return 0; // Stop execution
+    }
+    
+    printSingleTable(targetNum);
+    cout << endl; // Formatting line break
+
+    // --- PART B: Tables from 1 to N ---
+    cout << "Enter a number N to print all tables from 1 to N: ";
+    cin >> maxRange;
+    
+    // Validation for Part B
+    if (maxRange <= 0) {
+        cout << "Error: The value of N must be a positive integer." << endl;
+        return 0; // Stop execution
+    }
+
+    printTablesUpToN(maxRange);
+
+    return 0;
+}
+
+// -----------------------------------------------------------------------------
+// PART A — Single Table
+// -----------------------------------------------------------------------------
+void printSingleTable(int num) {
+    cout << "\nMultiplication Table for " << num << ":" << endl;
+    for (int i = 1; i <= 12; ++i) {
+        cout << num << " x " << i << " = " << (num * i) << endl;
+    }
+}
+
+// -----------------------------------------------------------------------------
+// PART B — Bonus: Tables from 1 to N
+// -----------------------------------------------------------------------------
+void printTablesUpToN(int n) {
+    for (int i = 1; i <= n; ++i) {
+        printSingleTable(i);
+        
+        // Print a separator line after every table except the last one
+        if (i < n) {
+            cout << "---------------------------" << endl;
+        }
+    }
+}
