@@ -80,3 +80,127 @@
 #include <string>
 using namespace std;
 
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+// Function declarations
+void displayMenu();
+void addTask(vector<string>& tasks);
+void viewTasks(const vector<string>& tasks);
+void deleteTask(vector<string>& tasks);
+
+int main() {
+    vector<string> tasks;
+    int choice = 0;
+
+    while (choice != 4) {
+        displayMenu();
+        cin >> choice;
+
+        // Handle case where user types a non-integer input to prevent an infinite loop
+        if (cin.fail()) {
+            cin.clear(); // Clear the error flag
+            cin.ignore(10000, '\n'); // Discard invalid characters
+            cout << "Invalid input. Please enter a number between 1 and 4.\n\n";
+            continue;
+        }
+
+        cin.ignore(); // Clear the newline character left in the buffer by cin >> choice
+
+        switch (choice) {
+            case 1:
+                addTask(tasks);
+                break;
+            case 2:
+                viewTasks(tasks);
+                break;
+            case 3:
+                deleteTask(tasks);
+                break;
+            case 4:
+                cout << "Goodbye!\n";
+                break;
+            default:
+                cout << "Invalid choice. Please enter a number from 1 to 4.\n\n";
+        }
+    }
+
+    return 0;
+}
+
+// -----------------------------------------------------------------------------
+// FUNCTION DEFINITIONS
+// -----------------------------------------------------------------------------
+
+// Displays the interactive console menu
+void displayMenu() {
+    cout << "============================\n";
+    cout << "      TO-DO LIST MENU       \n";
+    cout << "============================\n";
+    cout << "1. Add task\n";
+    cout << "2. View tasks\n";
+    cout << "3. Delete task\n";
+    cout << "4. Quit\n";
+    cout << "Enter your choice (1-4): ";
+}
+
+// Prompts the user and adds a new task to the vector
+void addTask(vector<string>& tasks) {
+    string newTask;
+    cout << "Enter task: ";
+    getline(cin, newTask); // Captures the full line, including spaces
+    
+    tasks.push_back(newTask);
+    cout << "Task added: \"" << newTask << "\"\n\n";
+}
+
+// Displays all current tasks numbered starting from 1
+void viewTasks(const vector<string>& tasks) {
+    if (tasks.empty()) {
+        cout << "Your to-do list is empty!\n\n";
+        return;
+    }
+
+    cout << "Your Tasks:\n";
+    for (size_t i = 0; i < tasks.size(); ++i) {
+        cout << i + 1 << ". " << tasks[i] << "\n";
+    }
+    cout << "\n";
+}
+
+// Deletes a task by its display number (1-indexed) after validation
+void deleteTask(vector<string>& tasks) {
+    if (tasks.empty()) {
+        cout << "No tasks available to delete.\n\n";
+        return;
+    }
+
+    // Show the current tasks first so the user can choose easily
+    viewTasks(tasks);
+
+    int taskNumber;
+    cout << "Enter task number to delete: ";
+    cin >> taskNumber;
+
+    if (cin.fail()) {
+        cin.clear();
+        cin.ignore(10000, '\n');
+        cout << "Invalid input. Deletion canceled.\n\n";
+        return;
+    }
+
+    // Validate the index bounds (User sees 1-indexed, Vector uses 0-indexed)
+    if (taskNumber < 1 || taskNumber > static_cast<int>(tasks.size())) {
+        cout << "Error: Invalid task number.\n\n";
+    } else {
+        int indexToDelete = taskNumber - 1;
+        string removedTask = tasks[indexToDelete];
+        
+        // Erase the element from the vector
+        tasks.erase(tasks.begin() + indexToDelete);
+        cout << "Task \"" << removedTask << "\" has been removed.\n\n";
+    }
+}
